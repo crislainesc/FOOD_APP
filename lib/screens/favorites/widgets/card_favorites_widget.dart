@@ -42,7 +42,7 @@ class CardFavoritesWidget extends StatelessWidget {
             spreadRadius: 0,
             blurRadius: 10,
             offset: Offset(4, 4), // changes position of shadow
-          )
+          ),
         ],
       ),
       child: Row(

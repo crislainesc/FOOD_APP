@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_app/models/product.dart';
 import 'package:food_app/screens/favorites/favorites_controller.dart';
 import 'package:food_app/screens/favorites/widgets/card_favorites_widget.dart';
-import 'package:food_app/screens/order/order_screen.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesScreen extends StatefulWidget {
@@ -34,21 +33,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                               title: product.name,
                               image: product.imageUrl,
                               price: product.price,
-                              onTap: () {
-                                print("on tap");
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OrderScreen(
-                                      product: product,
-                                    ),
-                                  ),
-                                );
-                              },
                               description: product.description,
                               onRemoveFavoriteProduct: () {
                                 controller.removeFavoriteProduct(index: index);
-                                print("removeu");
                                 product.favorite = false;
                                 setState(() {
                                   _FavoritesScreenState();

@@ -68,8 +68,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                         .removeFavoriteProductId(
                                             id: widget.product);
                                     widget.product.favorite = false;
-                                    print("desfavoritou");
-                                    print(widget.product.name);
                                     setState(() {
                                       _OrderScreenState();
                                     });
@@ -86,7 +84,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                           product: widget.product);
 
                                   widget.product.favorite = true;
-                                  print("favoritou");
                                   print(widget.product.name);
                                   setState(() {
                                     _OrderScreenState();

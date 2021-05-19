@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:food_app/core/app_image.dart';
 import 'package:food_app/models/product.dart';
 
 class CartController {
@@ -19,20 +18,7 @@ class CartController {
     this.total = this.subTotal;
   }
 
-  final listProductsNotfier = ValueNotifier<List<Product>>([
-    Product(
-        name: "Pizza",
-        description: "4 queijos",
-        price: 48.9,
-        imageUrl: AppImage.pizza,
-        favorite: false),
-    Product(
-        name: "Pizza",
-        description: "4 queijos",
-        price: 48.9,
-        imageUrl: AppImage.pizza,
-        favorite: false),
-  ]);
+  final listProductsNotfier = ValueNotifier<List<Product>>([]);
   List<Product> get products => listProductsNotfier.value;
 
   void addProduct({required Product product, int quantity = 1}) {
@@ -46,9 +32,7 @@ class CartController {
   }
 
   // quantidades
-  final quantitiesNotifier = <ValueNotifier<int>>[
-    
-  ];
+  final quantitiesNotifier = <ValueNotifier<int>>[];
 
   void addQuantity({required qtd}) {
     final vn = ValueNotifier<int>(qtd);

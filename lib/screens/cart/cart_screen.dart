@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/core/app_image.dart';
 import 'package:food_app/core/app_text_styles.dart';
 import 'package:food_app/models/product.dart';
 import 'package:food_app/screens/cart/cart_controller.dart';
@@ -9,23 +8,6 @@ import 'package:food_app/screens/cart/widgets/item_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
-  final productCart = [
-    {
-      "name": "Burgers",
-      "price": 23.00,
-      "description":
-          "A signature flame-grilled chicken patty topped with smoked beef",
-      "imageUrl": AppImage.beefBurger,
-    },
-    {
-      "name": "Burgers",
-      "price": 16.00,
-      "description":
-          "A signature flame-grilled chicken patty topped with smoked beef",
-      "imageUrl": AppImage.beefBurger,
-    },
-  ];
-
   late CartController controller;
 
   @override
