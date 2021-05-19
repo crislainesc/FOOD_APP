@@ -9,14 +9,18 @@ class CardFavoritesWidget extends StatelessWidget {
   final double price;
   final String image;
   final String description;
+  final Function onRemoveFavoriteProduct;
+  final VoidCallback? onTap;
 
-  const CardFavoritesWidget({
-    Key? key,
-    required this.title,
-    required this.price,
-    required this.image,
-    required this.description,
-  }) : super(key: key);
+  const CardFavoritesWidget(
+      {Key? key,
+      required this.title,
+      required this.price,
+      required this.image,
+      required this.description,
+      required this.onRemoveFavoriteProduct,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +72,9 @@ class CardFavoritesWidget extends StatelessWidget {
                             ),
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
-                              child:
-                                  Text("R\$ ${this.price.toStringAsFixed(2)}",
-                              style: AppTextStyles.subtitle17),
+                              child: Text(
+                                  "R\$ ${this.price.toStringAsFixed(2)}",
+                                  style: AppTextStyles.subtitle17),
                             ),
                           ],
                         ),
@@ -83,11 +87,14 @@ class CardFavoritesWidget extends StatelessWidget {
           ),
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                   child: ButtonShadowWidget(
-                    icon: Icon(AppIcons.like, color: AppColors.red),
+                    icon: Icon(
+                      AppIcons.like,
+                      color: AppColors.red,
+                    ),
+                    onTap: () => this.onRemoveFavoriteProduct(),
                   ),
                 )
               ],

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:food_app/core/app_colors.dart';
-import 'package:food_app/core/app_image.dart';
 import 'package:food_app/core/app_text_styles.dart';
 import 'package:food_app/models/product.dart';
+import 'package:food_app/page_view/pages_controller.dart';
+import 'package:food_app/screens/cart/cart_controller.dart';
+import 'package:food_app/screens/favorites/favorites_controller.dart';
+import 'package:food_app/screens/order/order_controller.dart';
 import 'package:food_app/screens/order/widgets/around_amount_widget.dart';
 import 'package:food_app/screens/order/widgets/button_add_cart.dart';
 import 'package:food_app/screens/order/widgets/button_shadow_widget.dart';
 import 'package:food_app/screens/order/widgets/size_product_widget.dart';
 import 'package:food_app/util/app_icons_icons.dart';
+import 'package:provider/provider.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   Product product;
 
   OrderScreen({
@@ -19,7 +23,19 @@ class OrderScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _OrderScreenState createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  late FavoritesController controllerFavorites;
+
+  var like = 0;
+
+  OrderController controller = OrderController();
+
+  @override
   Widget build(BuildContext context) {
+    controllerFavorites = Provider.of<FavoritesController>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -38,17 +54,53 @@ class OrderScreen extends StatelessWidget {
                             Navigator.pop(context);
                           },
                         ),
-                        ButtonShadowWidget(
-                          icon:
-                              Icon(AppIcons.like_outline, color: AppColors.red),
-                        )
+                        ValueListenableBuilder(
+                            valueListenable: controllerFavorites
+                                .listFavoritesProductsNotifier,
+                            builder: (context, value, _) {
+                              if (widget.product.favorite == true) {
+                                return ButtonShadowWidget(
+                                  icon:
+                                      Icon(AppIcons.like, color: AppColors.red),
+                                  onTap: () {
+                                    Provider.of<FavoritesController>(context,
+                                            listen: false)
+                                        .removeFavoriteProductId(
+                                            id: widget.product);
+                                    widget.product.favorite = false;
+                                    print("desfavoritou");
+                                    print(widget.product.name);
+                                    setState(() {
+                                      _OrderScreenState();
+                                    });
+                                  },
+                                );
+                              }
+                              return ButtonShadowWidget(
+                                icon: Icon(AppIcons.like_outline,
+                                    color: AppColors.red),
+                                onTap: () {
+                                  Provider.of<FavoritesController>(context,
+                                          listen: false)
+                                      .addFavoriteProduct(
+                                          product: widget.product);
+
+                                  widget.product.favorite = true;
+                                  print("favoritou");
+                                  print(widget.product.name);
+                                  setState(() {
+                                    _OrderScreenState();
+                                  });
+                                },
+                              );
+                            }),
                       ],
                     ),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 10, left: 70, right: 70),
                       child: Text(
-                        product.name,
+                        widget.product.name,
                         style: AppTextStyles.titleSemiBold,
                       ),
                     ),
@@ -56,66 +108,77 @@ class OrderScreen extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(top: 10, left: 70, right: 70),
                       child: Text(
-                        product.description,
+                        widget.product.description,
                         style: AppTextStyles.body,
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Image.asset(product.imageUrl),
+                    Image.asset(widget.product.imageUrl),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizeProductWidget(
-                            title: "P",
-                            selected: true,
-                            onTap: () {
-                              print("P");
-                            },
-                          ),
-                          SizeProductWidget(
-                            title: "M",
-                            selected: false,
-                            onTap: () {
-                              print("M");
-                            },
-                          ),
-                          SizeProductWidget(
-                            title: "G",
-                            selected: false,
-                            onTap: () {
-                              print("G");
-                            },
-                          ),
-                        ],
+                      child: ValueListenableBuilder(
+                        valueListenable: controller.sizeNotifier,
+                        builder: (context, value, _) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizeProductWidget(
+                                title: "P",
+                                selected: value == Sizes.P,
+                                onTap: () {
+                                  controller.size = Sizes.P;
+                                },
+                              ),
+                              SizeProductWidget(
+                                title: "M",
+                                selected: value == Sizes.M,
+                                onTap: () {
+                                  controller.size = Sizes.M;
+                                },
+                              ),
+                              SizeProductWidget(
+                                title: "G",
+                                selected: value == Sizes.G,
+                                onTap: () {
+                                  controller.size = Sizes.G;
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AroundAmountWidget(
-                            icon: Icons.remove,
-                            onTap: () {
-                              print("remove");
-                            },
-                          ),
-                          SizedBox(width: 50),
-                          Text(
-                            "5",
-                            style: AppTextStyles.letterAmount,
-                          ),
-                          SizedBox(width: 50),
-                          AroundAmountWidget(
-                            icon: Icons.add,
-                            onTap: () {
-                              print("add");
-                            },
-                          ),
-                        ],
-                      ),
+                      child: ValueListenableBuilder(
+                          valueListenable: controller.quantityNotifier,
+                          builder: (context, value, _) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AroundAmountWidget(
+                                  icon: Icons.remove,
+                                  onTap: () {
+                                    if (controller.quantity >= 2) {
+                                      controller.quantity -= 1;
+                                    }
+                                  },
+                                ),
+                                SizedBox(width: 50),
+                                Text(
+                                  "${controller.quantity}",
+                                  style: AppTextStyles.letterAmount,
+                                ),
+                                SizedBox(width: 50),
+                                AroundAmountWidget(
+                                  icon: Icons.add,
+                                  onTap: () {
+                                    controller.quantity += 1;
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                     ),
                     SizedBox(
                       height: 80,
@@ -144,7 +207,7 @@ class OrderScreen extends StatelessWidget {
                                 style: AppTextStyles.heading,
                               ),
                               Text(
-                                "R\$ ${product.price}",
+                                "R\$ ${widget.product.price}",
                                 style: AppTextStyles.letterAmount,
                               ),
                             ],
@@ -153,7 +216,17 @@ class OrderScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: ButtonAddCart(
-                          onTap: () {},
+                          onTap: () {
+                            Provider.of<CartController>(context, listen: false)
+                                .addProduct(
+                                    product: widget.product,
+                                    quantity: controller.quantity);
+
+                            Navigator.pop(context);
+                            Provider.of<PagesController>(context, listen: false)
+                                .pageController
+                                .jumpToPage(2);
+                          },
                         ),
                       )
                     ],

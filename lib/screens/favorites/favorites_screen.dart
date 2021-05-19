@@ -1,50 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/core/app_image.dart';
+import 'package:food_app/models/product.dart';
+import 'package:food_app/screens/favorites/favorites_controller.dart';
 import 'package:food_app/screens/favorites/widgets/card_favorites_widget.dart';
+import 'package:food_app/screens/order/order_screen.dart';
+import 'package:provider/provider.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  final productCart = [
-    {
-      "name": "Chipotle Che...",
-      "price": 41.90,
-      "description": "Chicken Burger",
-      "imageUrl": AppImage.beefBurger,
-    },
-    {
-      "name": "Bolo",
-      "price": 41.90,
-      "description": "Bolo de chocolate",
-      "imageUrl": AppImage.cake,
-    },
-    {
-      "name": "Pizza",
-      "price": 41.90,
-      "description": "Pizza de calabresa",
-      "imageUrl": AppImage.pizza,
-    },
-  ];
+class FavoritesScreen extends StatefulWidget {
+  @override
+  _FavoritesScreenState createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  late FavoritesController controller;
+
   @override
   Widget build(BuildContext context) {
+    controller = Provider.of<FavoritesController>(context);
     return Column(
       children: [
         Expanded(
           child: Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  itemCount: productCart.length,
-                  itemBuilder: (context, index) {
-                    var product = productCart[index];
-                    return CardFavoritesWidget(
-                      title: product["name"].toString(),
-                      image: product["imageUrl"].toString(),
-                      price: double.parse(product["price"].toString()),
-                      description: product["description"].toString(),
-                    );
-                  },
-                ),
-              ),
+                  child: ValueListenableBuilder(
+                      valueListenable: controller.listFavoritesProductsNotifier,
+                      builder: (context, List<Product> value, _) {
+                        return ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          itemCount: value.length,
+                          itemBuilder: (context, index) {
+                            Product product = value[index];
+                            return CardFavoritesWidget(
+                              title: product.name,
+                              image: product.imageUrl,
+                              price: product.price,
+                              onTap: () {
+                                print("on tap");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderScreen(
+                                      product: product,
+                                    ),
+                                  ),
+                                );
+                              },
+                              description: product.description,
+                              onRemoveFavoriteProduct: () {
+                                controller.removeFavoriteProduct(index: index);
+                                print("removeu");
+                                product.favorite = false;
+                                setState(() {
+                                  _FavoritesScreenState();
+                                });
+                              },
+                            );
+                          },
+                        );
+                      })),
             ],
           ),
         ),

@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 16.8,
         imageUrl: AppImage.beefBurger,
+        favorite: false
       ),
       Product(
         name: "Burguer X Catupiry",
@@ -51,6 +52,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 10.5,
         imageUrl: AppImage.beefBurger,
+        favorite: false
       ),
       Product(
         name: "Burguer Big",
@@ -58,6 +60,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 20.8,
         imageUrl: AppImage.beefBurger,
+        favorite: false
       ),
     ],
     "pizza": [
@@ -67,6 +70,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 60.8,
         imageUrl: AppImage.pizza,
+        favorite: false
       ),
       Product(
         name: "Pizza G de chocolate",
@@ -74,6 +78,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 75.8,
         imageUrl: AppImage.pizza,
+        favorite: false
       ),
     ],
     "bolos": [
@@ -83,6 +88,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 150.8,
         imageUrl: AppImage.cake,
+        favorite: false
       ),
       Product(
         name: "Bolo de morango",
@@ -90,6 +96,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 150.8,
         imageUrl: AppImage.cake,
+        favorite: false
       ),
       Product(
         name: "Bolo de morango",
@@ -97,6 +104,7 @@ class HomeScreen extends StatelessWidget {
             "A signature flame-grilled chicken patty topped with smoked beef",
         price: 150.8,
         imageUrl: AppImage.cake,
+        favorite: false
       ),
     ],
   };
