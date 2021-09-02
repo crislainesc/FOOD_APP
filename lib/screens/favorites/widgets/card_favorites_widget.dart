@@ -25,8 +25,8 @@ class CardFavoritesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(25),
+      margin: EdgeInsets.all(5),
+      padding: EdgeInsets.all(28),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Colors.white,
@@ -47,59 +47,37 @@ class CardFavoritesWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Image.asset(this.image)),
           Expanded(
-            flex: 9,
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(32),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(this.title,
-                                  style: AppTextStyles.titleFavorites),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(this.description,
-                                  style: AppTextStyles.descriptionFavorites),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: Text(
-                                  "R\$ ${this.price.toStringAsFixed(2)}",
-                                  style: AppTextStyles.subtitle17),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            flex: 1,
+            child: Image.asset(this.image),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              child: Text(this.title, style: AppTextStyles.titleFavorites),
             ),
           ),
           Expanded(
-            child: Row(
-              children: [
-                InkWell(
-                  child: ButtonShadowWidget(
-                    icon: Icon(
-                      AppIcons.like,
-                      color: AppColors.red,
-                    ),
-                    onTap: () => this.onRemoveFavoriteProduct(),
-                  ),
-                )
-              ],
+            flex: 1,
+            child: Container(
+              child: Text(
+                "R\$ ${this.price.toStringAsFixed(2)}",
+                style: AppTextStyles.subtitle17,
+              ),
             ),
-          )
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              child: ButtonShadowWidget(
+                icon: Icon(
+                  AppIcons.like,
+                  color: AppColors.red,
+                ),
+                onTap: () => this.onRemoveFavoriteProduct(),
+              ),
+            ),
+          ),
         ],
       ),
     );
